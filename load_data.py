@@ -66,7 +66,7 @@ def singlecore(lst, model):
         data_loader = DataLoader(i)
         data_articles.append(data_loader)
     sentences = [article.sentence for article in data_articles]
-    embeddings = model.encode(sentences)
+    embeddings = model.encode(sentences,convert_to_tensor=True)
     for data_article, embedding in zip(data_articles, embeddings):
         data_article.set_embedding(embedding)
     return data_articles
