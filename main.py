@@ -9,6 +9,7 @@ import config
 from config import model_transformer
 from load_data import run_load
 
+os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
 
 def load_xml_file(file_path):
     with open(file_path, 'r') as f:
