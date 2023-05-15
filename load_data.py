@@ -39,12 +39,10 @@ class DataLoader:
                 new_lines.append(line)
         self.sentence = " ".join(new_lines)
 
-    def set_embeding(self, model):
+    def set_embedding(self, embeding):
 
-        x = len(_re_word_boundaries.findall(self.sentence)) >> 1
-        if x > model.max_seq_length:
-            print(self.sentence)
-        self.embeding = model.encode(self.sentence, convert_to_tensor=True)
+
+        self.embeding = embeding
 
     def compare_cosine(self, vec1):
         x = util.cos_sim(vec1, self.embeding)
