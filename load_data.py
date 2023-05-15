@@ -47,10 +47,8 @@ class DataLoader:
         self.embeding = embeding
 
     def compare_cosine(self, vec1):
-        self.embeding = self.embeding.cpu()
-        #x = util.cos_sim(vec1, self.embeding)
+        self.embeding = self.embeding.cpu().numpy()  # convert to numpy array after moving to CPU
         x = np.dot(self.embeding, vec1) / (norm(self.embeding) * norm(vec1))
-        # x = np.dot(self.embeding,vec1)
         return x
 
 
