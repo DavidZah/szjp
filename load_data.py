@@ -40,8 +40,6 @@ class DataLoader:
         self.sentence = " ".join(new_lines)
 
     def set_embedding(self, embeding):
-
-
         self.embeding = embeding
 
     def compare_cosine(self, vec1):
@@ -64,7 +62,7 @@ def singlecore(lst, model):
         data_loader = DataLoader(i)
         data_articles.append(data_loader)
     sentences = [article.sentence for article in data_articles]
-    embeddings = model.encode(sentences[:10])
+    embeddings = model.encode(sentences)
     for data_article, embedding in zip(data_articles, embeddings):
         data_article.set_embedding(embedding)
     return data_articles
