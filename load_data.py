@@ -18,7 +18,7 @@ from config import model_transformer
 from config import num_of_cores
 
 _re_word_boundaries = re.compile(r'\b')
-os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
+
 
 
 class DataLoader:
