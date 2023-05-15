@@ -83,7 +83,7 @@ def run_load(path):
     file_lst = get_file_list(Path(path))
     data_articles = []
 
-    chunk_size = 200
+    chunk_size = 10
     pool = Pool(processes=num_of_cores)
 
     chunks = [file_lst[x:x + chunk_size] for x in range(0, len(file_lst), chunk_size)]
@@ -114,7 +114,7 @@ if __name__ == "__main__":
     data_articles = []
     model = SentenceTransformer(model_transformer)
 
-    chunk_size = 50
+    chunk_size = 10
     pool = Pool(processes=2)
 
     chunks = [file_lst[x:x + chunk_size] for x in range(0, len(file_lst), chunk_size)]
