@@ -13,6 +13,7 @@ from sentence_transformers import SentenceTransformer, util
 from sklearn.feature_extraction.text import TfidfVectorizer
 from tqdm import tqdm
 
+import config
 from config import model_transformer
 from config import num_of_cores
 
@@ -115,7 +116,7 @@ if __name__ == "__main__":
     model = SentenceTransformer(model_transformer)
 
     chunk_size = 10
-    pool = Pool(processes=2)
+    pool = Pool(processes=config.num_of_cores)
 
     chunks = [file_lst[x:x + chunk_size] for x in range(0, len(file_lst), chunk_size)]
     results = []
