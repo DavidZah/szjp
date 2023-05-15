@@ -47,6 +47,8 @@ class DataLoader:
         self.embeding = embeding
 
     def compare_cosine(self, vec1):
+        print(self.embeding)
+        print(self.vec1)
         self.embeding = self.embeding.cpu().numpy()  # convert to numpy array after moving to CPU
         x = np.dot(self.embeding, vec1) / (norm(self.embeding) * norm(vec1))
         return x
@@ -66,7 +68,7 @@ def singlecore(lst, model):
         data_loader = DataLoader(i)
         data_articles.append(data_loader)
     sentences = [article.sentence for article in data_articles]
-    embeddings = model.encode(sentences,convert_to_tensor=True)
+    embeddings = model.encode(sentences)
     for data_article, embedding in zip(data_articles, embeddings):
         data_article.set_embedding(embedding)
     return data_articles
