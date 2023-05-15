@@ -13,6 +13,7 @@ import torch
 from bs4 import BeautifulSoup
 from sentence_transformers import SentenceTransformer, util
 from sklearn.feature_extraction.text import TfidfVectorizer
+from torch import Tensor
 from tqdm import tqdm
 
 import config
@@ -46,6 +47,7 @@ class DataLoader:
         self.embeding = embeding
 
     def compare_cosine(self, vec1):
+        self.embeding = Tensor.cpu(self.embeding)
         #x = util.cos_sim(vec1, self.embeding)
         x = np.dot(self.embeding, vec1) / (norm(self.embeding) * norm(vec1))
         # x = np.dot(self.embeding,vec1)
