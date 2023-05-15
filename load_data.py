@@ -8,6 +8,7 @@ import xml.etree.ElementTree as ET
 from multiprocessing import Pool
 from pathlib import Path
 
+import torch
 from bs4 import BeautifulSoup
 from sentence_transformers import SentenceTransformer, util
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -43,6 +44,7 @@ class DataLoader:
         self.embeding = embeding
 
     def compare_cosine(self, vec1):
+        self.embeding = torch.tensor(self.embeding, device='cpu')
         x = util.cos_sim(vec1, self.embeding)
         # x = np.dot(self.embeding,vec1)
         return x
