@@ -34,15 +34,15 @@ def load_xml_file(file_path):
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    model = SentenceTransformer(model_transformer)
+    model = SentenceTransformer(model_transformer,device = "cuda")
 
-    data_articles, vectorizer = run_load(Path(config.path))
+    data_articles, vectorizer = run_load(Path(config.path),model)
     question_lst = load_xml_file(Path(config.path_query))
 
     file = open(config.output_name, 'w+')
 
     for docno, doc_text in tqdm(question_lst):
-        doc_text_embeding = model.encode(doc_text, convert_to_tensor=True)
+        doc_text_embeding = model.encode(doc_text, convert_to_tensor=False)
         idf_embeding = vectorizer.transform([doc_text])
         ranking = []
         rank = {}
@@ -51,7 +51,7 @@ if __name__ == '__main__':
             cosine_similarities = linear_kernel(i.tfid, idf_embeding)
 
             file_name, _ = os.path.splitext(os.path.basename(i.path))
-            rank[file_name] = x[0][0].item() + cosine_similarities[0, 0]
+            rank[file_name] = x + cosine_similarities[0, 0]*0.95
             # rank[file_name] = x
         rank = sorted(rank.items(), key=lambda x: x[1], reverse=True)
         for i in rank[0:100]:

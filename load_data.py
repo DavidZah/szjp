@@ -47,9 +47,8 @@ class DataLoader:
         self.embeding = embeding
 
     def compare_cosine(self, vec1):
-        print(self.embeding)
-        print(vec1)
-        self.embeding = self.embeding.cpu().numpy()  # convert to numpy array after moving to CPU
+
+        #self.embeding = self.embeding.cpu().numpy()  # convert to numpy array after moving to CPU
         x = np.dot(self.embeding, vec1) / (norm(self.embeding) * norm(vec1))
         return x
 
@@ -92,8 +91,7 @@ def load_xml_file(file_path):
     return doc_list
 
 
-def run_load(path):
-    model = SentenceTransformer(model_transformer)
+def run_load(path,model):
     file_lst = get_file_list(Path(path))
     print(f"Num of files {len(file_lst)}")
     data_articles = []
