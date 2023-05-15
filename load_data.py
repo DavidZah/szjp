@@ -27,7 +27,7 @@ class DataLoader:
 
     def parser(self):
         f = codecs.open(self.path, 'r', 'utf-8')
-        document = BeautifulSoup(f.read(),features="html.parser").get_text()
+        document = BeautifulSoup(f.read()).get_text()
         text = "".join([s for s in document.strip().splitlines(True) if s.strip()])
         lines = text.splitlines()
         pattern = re.compile("^[0-9\s]+$")
@@ -83,7 +83,7 @@ def run_load(path):
     file_lst = get_file_list(Path(path))
     data_articles = []
 
-    chunk_size = 10
+    chunk_size = 200
     pool = Pool(processes=num_of_cores)
 
     chunks = [file_lst[x:x + chunk_size] for x in range(0, len(file_lst), chunk_size)]
