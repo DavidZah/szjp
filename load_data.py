@@ -18,6 +18,7 @@ from config import model_transformer
 from config import num_of_cores
 
 _re_word_boundaries = re.compile(r'\b')
+os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
 
 
 class DataLoader:
@@ -85,7 +86,7 @@ def run_load(path):
     print(f"Num of files {len(file_lst)}")
     data_articles = []
 
-    chunk_size = 10
+    chunk_size = 50
     pool = Pool(processes=num_of_cores)
 
     chunks = [file_lst[x:x + chunk_size] for x in range(0, len(file_lst), chunk_size)]
