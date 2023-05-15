@@ -29,7 +29,7 @@ class DataLoader:
 
     def parser(self):
         f = codecs.open(self.path, 'r', 'utf-8')
-        document = BeautifulSoup(f.read(),features="html.parser").get_text()
+        document = BeautifulSoup(f.read()).get_text()
         text = "".join([s for s in document.strip().splitlines(True) if s.strip()])
         lines = text.splitlines()
         pattern = re.compile("^[0-9\s]+$")
@@ -60,7 +60,16 @@ def get_file_list(path):
             filelist.append(os.path.join(root, file))
     return filelist
 
-
+def singlecore(lst, model):
+    data_articles = []
+    for i in lst:
+        data_loader = DataLoader(i)
+        data_articles.append(data_loader)
+    sentences = [article.sentence for article in data_articles]
+    embeddings = model.encode(sentences)
+    for data_article, embedding in zip(data_articles, embeddings):
+        data_article.set_embedding(embedding)
+    return data_articles
 def multicore(lst):
     model = SentenceTransformer(model_transformer)
     data_articles = []
@@ -82,12 +91,33 @@ def load_xml_file(file_path):
 
 
 def run_load(path):
+    model = SentenceTransformer(model_transformer)
+    file_lst = get_file_list(Path(path))
+    print(f"Num of files {len(file_lst)}")
+    data_articles = []
+
+
+    result = singlecore(file_lst, model)
+    data_articles.extend(result)
+
+    sentences = [article.sentence for article in data_articles]
+
+    vectorizer = TfidfVectorizer()
+    doc_vectors = vectorizer.fit_transform(sentences)
+
+    for index, i in enumerate(doc_vectors):
+        data_articles[index].tfid = i
+
+    return data_articles, vectorizer
+
+def run_load_(path):
+
     file_lst = get_file_list(Path(path))
     print(f"Num of files {len(file_lst)}")
     data_articles = []
 
     chunk_size = 50
-    pool = Pool(processes=num_of_cores)
+    pool = Pool(processes=num_of_cores,)
 
     chunks = [file_lst[x:x + chunk_size] for x in range(0, len(file_lst), chunk_size)]
     results = []

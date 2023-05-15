@@ -36,10 +36,6 @@ def load_xml_file(file_path):
 if __name__ == '__main__':
     model = SentenceTransformer(model_transformer)
 
-    from multiprocessing import set_start_method
-
-    set_start_method("spawn")
-
     data_articles, vectorizer = run_load(Path(config.path))
     question_lst = load_xml_file(Path(config.path_query))
 
