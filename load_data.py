@@ -82,6 +82,7 @@ def load_xml_file(file_path):
 
 def run_load(path):
     file_lst = get_file_list(Path(path))
+    print(f"Num of files {len(file_lst)}")
     data_articles = []
 
     chunk_size = 10
