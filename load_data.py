@@ -8,6 +8,7 @@ import xml.etree.ElementTree as ET
 from multiprocessing import Pool
 from pathlib import Path
 
+import numpy as np
 import torch
 from bs4 import BeautifulSoup
 from sentence_transformers import SentenceTransformer, util
@@ -17,6 +18,7 @@ from tqdm import tqdm
 import config
 from config import model_transformer
 from config import num_of_cores
+from numpy.linalg import norm
 
 _re_word_boundaries = re.compile(r'\b')
 
@@ -44,8 +46,8 @@ class DataLoader:
         self.embeding = embeding
 
     def compare_cosine(self, vec1):
-        self.embeding
-        x = util.cos_sim(vec1.cpu(), self.embeding)
+        #x = util.cos_sim(vec1, self.embeding)
+        x = np.dot(self.embeding, vec1) / (norm(self.embeding) * norm(vec1))
         # x = np.dot(self.embeding,vec1)
         return x
 
