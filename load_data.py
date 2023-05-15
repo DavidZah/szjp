@@ -92,6 +92,7 @@ def run_load(path):
     chunks = [file_lst[x:x + chunk_size] for x in range(0, len(file_lst), chunk_size)]
     results = []
 
+
     for result in tqdm(pool.imap_unordered(multicore, chunks), total=len(chunks)):
         results.append(result)
 
