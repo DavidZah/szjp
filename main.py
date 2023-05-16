@@ -4,6 +4,7 @@ from pathlib import Path
 from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import linear_kernel
 from tqdm import tqdm
+from compute_score_fun import score
 
 import config
 from config import model_transformer
@@ -51,12 +52,16 @@ if __name__ == '__main__':
             cosine_similarities = linear_kernel(i.tfid, idf_embeding)
 
             file_name, _ = os.path.splitext(os.path.basename(i.path))
-            rank[file_name] = x + cosine_similarities[0, 0]*0.95
+            rank[file_name] = x*0.7 + cosine_similarities[0, 0]*0.78
             # rank[file_name] = x
         rank = sorted(rank.items(), key=lambda x: x[1], reverse=True)
         for i in rank[0:100]:
             file.write(f"{docno}\t{i[0]}\t{i[1]}\n")
 
+
+
     file.close()
+
+    score = score()
 
     print("Done")
