@@ -72,7 +72,7 @@ def grid_search() -> Tuple[float, float]:
     best_Y1, best_Y2 = None, None
     best_score = float('-inf')
 
-    model = SentenceTransformer(model_transformer, device="cuda")
+    model = SentenceTransformer(model_transformer)
 
     data_articles, vectorizer = run_load(Path(config.path), model)
     question_lst = load_xml_file(Path(config.path_query))
